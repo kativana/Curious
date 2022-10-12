@@ -1,0 +1,68 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Welcome to Curious</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+  </head>
+  <body>
+    <section class="hero is-info is-small">
+        <section class="section">
+            <h1 class="title is-1">Curious</h1>
+            <h2 class="subtitle is-3">
+               <strong>Welcome to a simple Django social media</strong>
+            </h2>
+          </section>
+    </section>
+    
+  
+  {% block content %}
+    <div class="card">
+        <div class="columns is-mobile">
+            <div class="column is-half is-offset-one-quarter">
+                <br>
+                <br>
+                {% if messages %}
+                  {% for message in messages %}
+                    <div class="alert alert-dismissible alert-success">
+                      <strong>{{message}}</strong>
+                    </div>
+                  {% endfor %}
+                {% endif %}
+                <br>
+                <br>
+                <h3 class="title is-size-3">Register</h3>
+                <form action="{% url 'curious:register' %}" method="post">
+                    {% csrf_token %}
+                    {% for non_field_error in form.non_field_errors %}
+                        <p class="help is-danger">{{ non_field_error }}</p>
+                    {% endfor %}
+                    {% for field in form %}
+                        <div class="field">
+                            <label for="{{ field.id_for_label }}" class="label">{{ field.html_name }}</label>
+                            {{ field }}
+                        {% for error in field.errors %}
+                            <p class="help is-danger">{{ error }}</p>
+                        {% endfor %}
+                        </div>
+                    {% endfor %}
+                    <br>
+                    <input type="submit" value="REGISTER" class="button is-link is-small">
+                </form>
+                <br>
+                <br>
+                <a href="{% url 'curious:login' %}"><b>Go back to login</b></a>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% endblock %}
+
+    
+
+
+
